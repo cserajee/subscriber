@@ -1,5 +1,8 @@
 package com.subscriber.config;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,8 +37,15 @@ public class GCPConfig {
  
 	   @ServiceActivator(inputChannel = "myInputChannel")
 	   public void messageReceiver(String payload) {
-	      LOGGER.info("Message arrived! Payload: " + payload);
-
+	      LOGGER.info("Message arrived! Payload: " + payload); 
+	      try {
+	    	  FileWriter file = new FileWriter("src/main/resources/data.txt");
+	    	  BufferedWriter buffer = new BufferedWriter(file);  
+	    	  buffer.write("Message arrived! Payload: " + payload);  
+	    	  buffer.close();  
+	      } catch (Exception e) {
+	          e.printStackTrace();
+	      }  
 	   }
 	   
 }
